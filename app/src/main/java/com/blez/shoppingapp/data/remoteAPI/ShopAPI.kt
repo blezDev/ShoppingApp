@@ -19,6 +19,12 @@ interface ShopAPI {
    @POST("/shop/selectItem")
    suspend fun getItemDetail(@Body pname: Pname) : ShopItem
 
+   @POST("/shop/createPurchase")
+   suspend fun createPurchasedItem(@Body createCartItems: ShopCartItem) : Response<status>
+
+   @POST("/shop/history")
+   suspend fun purchasedHistory(@Body emailData: emailData) : List<ShopCartItem>
+
 
     @POST("/shop/cartItems")
    suspend fun getShoppingCartItems(@Body emailData: emailData ) : List<ShopCartItem>

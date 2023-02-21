@@ -15,6 +15,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blez.shoppingapp.R
 import com.blez.shoppingapp.adapter.ShoppingCartAdapter
+import com.blez.shoppingapp.data.CreateCartItem
+import com.blez.shoppingapp.data.ShopCartItem
 import com.blez.shoppingapp.databinding.FragmentDashboardBinding
 import com.blez.shoppingapp.util.TokenManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,6 +29,7 @@ class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
     private var shoppingCartAdapter : ShoppingCartAdapter?= null
     private lateinit var tokenManager: TokenManager
+    private lateinit var item : List<ShopCartItem>
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -48,8 +51,10 @@ class DashboardFragment : Fragment() {
         subscribeToObserver()
         dashboardViewModel.getCartItems(tokenManager.getEmail()!!,token = tokenManager.getToken()!!)
         binding.buyBTN.setOnClickListener {
-            dashboardViewModel.deleteAllItems(tokenManager.getEmail()!!)
-            observeBuy()
+           for (i in item){
+               dashboardViewModel.createPurchased(i)
+           }
+            observeHistory()
         }
 
 
@@ -58,6 +63,27 @@ class DashboardFragment : Fragment() {
         binding.recyclerView.adapter = shoppingCartAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
+    private fun observeHistory(){
+       lifecycleScope.launch{
+           dashboardViewModel.historyStatus.collect{events->
+               when(events){
+                   is DashboardViewModel.SetupEvent.ShopCartItemsLoading->{
+
+                   }
+                   is DashboardViewModel.SetupEvent.CreatedItem->{
+                       dashboardViewModel.deleteAllItems(tokenManager.getEmail()!!)
+                       observeBuy()
+                   }
+                   else->Unit
+               }
+
+           }
+       }
+
+    }
+
+
+
     private fun subscribeToObserver() = lifecycleScope.launchWhenCreated {
         dashboardViewModel.cartItems.collect{events->
             when(events) {
@@ -71,7 +97,7 @@ class DashboardFragment : Fragment() {
                 }
                 is DashboardViewModel.SetupEvent.ShopItems->{
                     shoppingCartAdapter = ShoppingCartAdapter(requireContext(),events.data)
-
+                    item = events.data
                     setupRecyclerview()
                     var total = 0
                     for(i in events.data){

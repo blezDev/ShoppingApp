@@ -38,6 +38,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.detailFragment->{
                     binding.navView.isVisible = false
                 }
+                R.id.purchasedHistory->{
+                    binding.navView.isVisible = false
+                }
               else ->{
                   binding.navView.isVisible = true
               }

@@ -51,6 +51,9 @@ class NotificationsFragment : Fragment() {
            findNavController().navigate(R.id.action_navigation_users_to_loginActivity)
 
         }
+        binding.purchasedHistoryText.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_users_to_purchasedHistory)
+        }
     }
 
 

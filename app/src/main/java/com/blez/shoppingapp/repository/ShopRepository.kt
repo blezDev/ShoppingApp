@@ -13,6 +13,14 @@ class ShopRepository @Inject constructor(val shopAPI: ShopAPI) {
  suspend  fun getItems() = shopAPI.getShopItems()
     suspend fun getSelectedItem(pName : String) = shopAPI.getItemDetail(Pname(pName))
 
+    suspend fun createPurchased(createCartItem: ShopCartItem) = shopAPI.createPurchasedItem(createCartItem)
+
+    suspend fun history(email: String) = shopAPI.purchasedHistory(emailData(email))
+
+
+
+
+
    suspend fun getCartItems(email : String, token : String) = shopAPI.getShoppingCartItems(emailData(email))
     suspend fun createCartItem(createCartItem: CreateCartItem) = shopAPI.createCartItem(createCartItem)
     suspend fun deleteCartItem(_id : String) = shopAPI.deleteCartItem(_id)

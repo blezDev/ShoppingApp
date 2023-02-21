@@ -2,6 +2,7 @@ package com.blez.shoppingapp.ui.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.blez.shoppingapp.data.CreateCartItem
 import com.blez.shoppingapp.data.ShopCartItem
 import com.blez.shoppingapp.repository.ShopRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +20,7 @@ class DashboardViewModel @Inject constructor(private val shopRepository: ShopRep
         data class ShopItems(val data : List<ShopCartItem>) : SetupEvent()
         object ShopCartItemsEmpty : SetupEvent()
         object DeletedConfirmation : SetupEvent()
+        object CreatedItem : SetupEvent()
     }
    private val _cartItems = MutableStateFlow<SetupEvent>(SetupEvent.ShopCartItemsLoading)
     val cartItems : StateFlow<SetupEvent>
@@ -47,6 +49,19 @@ class DashboardViewModel @Inject constructor(private val shopRepository: ShopRep
           if (  status.isSuccessful){
               _deleteStatus.value = SetupEvent.DeletedConfirmation
           }
+        }
+    }
+    private val _historyStatus = MutableStateFlow<SetupEvent>(SetupEvent.ShopCartItemsLoading)
+    val historyStatus : StateFlow<SetupEvent>
+    get() = _historyStatus
+
+    fun createPurchased(createCartItem: ShopCartItem){
+        viewModelScope.launch{
+         val result =   shopRepository.createPurchased(createCartItem)
+            result
+            if (result.isSuccessful){
+                _historyStatus.value = SetupEvent.CreatedItem
+            }
         }
     }
 
