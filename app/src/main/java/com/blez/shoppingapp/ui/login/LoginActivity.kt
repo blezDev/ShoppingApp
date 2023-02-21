@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
          alert = androidx.appcompat.app.AlertDialog.Builder(this)
             .setTitle("Process is going on!!")
             .setMessage("Please Wait for few moments.")
-            .setCancelable(false)
+            .setCancelable(true)
             .create()
         binding.googleBTN.setOnClickListener {
             alert.show()
