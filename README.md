@@ -1,14 +1,14 @@
 #Shopping App 
 
 This is a sample shopping android application build using kotlin.
-Features:
-        1.User authentication and authorization through google sign from Firebase.\n
-        2.MongoDB for data storage through RESTAPI\n
-        3.Cart feature for each user\n
-        4.Sample products\n
-        5.Description of products page\n
-        6.User Dashboard\n
-        7.Demo Purchase history\n
+Features:\
+        1.User authentication and authorization through google sign from Firebase.\
+        2.MongoDB for data storage through RESTAPI\
+        3.Cart feature for each user\
+        4.Sample products\
+        5.Description of products page\
+        6.User Dashboard\
+        7.Demo Purchase history\
         
         Here are some screenshots
 ![1 (2)](https://user-images.githubusercontent.com/83898491/220334755-89bce16a-eb65-45bf-a11f-ed5462e3340d.png)
